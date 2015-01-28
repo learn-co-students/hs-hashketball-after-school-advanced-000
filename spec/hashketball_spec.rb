@@ -1,4 +1,5 @@
 require 'spec_helper'
+require_relative '../game_hash.rb'
 
 describe 'hashketball' do
 
@@ -8,98 +9,38 @@ describe 'hashketball' do
     end
   end
 
-  describe '#home_team_name' do
-    it "should return the home team's name" do
-      expect(home_team_name).to eq("Charlotte Hornets")
+  describe '#home_or_away' do
+    it "should return the team's status" do
+      expect(home_or_away("Brooklyn Nets")).to eq("home")
+      expect(home_or_away("Charlotte Hornets")).to eq("away")
     end
-  end
-
-  describe '#away_team_name' do
-    it "should return the home team's name" do
-      expect(away_team_name).to eq("Brooklyn Nets")
-    end
-  end
-
-  describe '#num_points_scored' do
-    it 'knows the number of points scored by each player' do
-      expect(num_points_scored("Jeff Adrien")).to eq(10)
-      expect(num_points_scored("Bismak Biyombo")).to eq(12)
-      expect(num_points_scored("DeSagna Diop")).to eq(24)
-      expect(num_points_scored("Ben Gordon")).to eq(33)
-      expect(num_points_scored("Brendan Haywood")).to eq(6)
-      expect(num_points_scored("Alan Anderson")).to eq(22)
-      expect(num_points_scored("Reggie Evans")).to eq(12)
-      expect(num_points_scored("Brook Lopez")).to eq(17)
-      expect(num_points_scored("Mason Plumlee")).to eq(26)
-      expect(num_points_scored("Jason Terry")).to eq(19)
-    end
-
-  end
-
-  describe '#shoe_size' do
-
-    it 'knows the shoe size of each player' do
-      expect(shoe_size("Jeff Adrien")).to eq(18)
-      expect(shoe_size("Bismak Biyombo")).to eq(16)
-      expect(shoe_size("DeSagna Diop")).to eq(14)
-      expect(shoe_size("Ben Gordon")).to eq(15)
-      expect(shoe_size("Brendan Haywood")).to eq(15)
-      expect(shoe_size("Alan Anderson")).to eq(16)
-      expect(shoe_size("Reggie Evans")).to eq(14)
-      expect(shoe_size("Brook Lopez")).to eq(17)
-      expect(shoe_size("Mason Plumlee")).to eq(19)
-      expect(shoe_size("Jason Terry")).to eq(15)
-    end
-
   end
 
   describe '#team_colors' do
-
     it 'knows the Brooklyn Nets colors are Black and White' do
-      brooklyn_colors = team_colors("Brooklyn Nets")
-      expect(brooklyn_colors.size).to eq(2)
-      brooklyn_colors.each do |color|
-        expect(["Black", "White"]).to include(color)
-      end
+      expect(team_colors("Brooklyn Nets")).to eq(["Black","White"])
     end
 
     it 'knows the Charlotte Hornets colors are Turquoise and Purple' do
-      charlotte_colors = team_colors("Charlotte Hornets")
-      expect(charlotte_colors.size).to eq(2)
-      charlotte_colors.each do |color|
-        expect(["Turquoise", "Purple"]).to include(color)
-      end
+      expect(team_colors("Charlotte Hornets")).to eq(["Turquoise","Purple"])
     end
   end
 
-  describe '#team_names' do
-
-    it 'returns the team names' do
-      teams = team_names
-      expect(teams.size).to eq(2)
-      teams.each do |name|
-        expect(["Brooklyn Nets", "Charlotte Hornets"]).to include(name)
-      end
+  describe '#print_player_points' do
+    it "puts each player's name and the number of points they scored" do
+        expect($stdout).to receive(:puts).with("Brook Lopez: 17 points")
+        expect($stdout).to receive(:puts).with("Alan Anderson: 22 points")
+        expect($stdout).to receive(:puts).with("Reggie Evans: 12 points")
+        expect($stdout).to receive(:puts).with("Mason Plumlee: 26 points")
+        expect($stdout).to receive(:puts).with("Jason Terry: 19 points")
+        print_player_points("Brooklyn Nets")
     end
-
-  end
-
-  describe '#player_numbers' do
-
-    it 'returns the player jersey numbers' do
-      charlotte_numbers = [0, 2, 4, 8, 33]
-      brooklyn_numbers = [0, 1, 11, 30, 31]
-
-      expect(player_numbers("Brooklyn Nets").sort).to eq(brooklyn_numbers)
-      expect(player_numbers("Charlotte Hornets").sort).to eq(charlotte_numbers)
-    end
-
   end
 
   describe '#player_stats' do
-
     let(:jeff_stats) {
       {
+        :name => "Jeff Adrien",
         :number => 4,
         :shoe => 18,
         :points => 10,
@@ -108,11 +49,11 @@ describe 'hashketball' do
         :steals => 2,
         :blocks => 7,
         :slam_dunks => 2
-      }
+       }
     }
-
     let(:bismak_stats) {
-      { 
+       {
+        :name => "Bismak Biyombo",
         :number => 0,
         :shoe => 16,
         :points => 12,
@@ -121,11 +62,11 @@ describe 'hashketball' do
         :steals => 7,
         :blocks => 15,
         :slam_dunks => 10
-      }
+       }
     }
-
     let(:desagna_stats) {
-      { 
+      {
+        :name => "DeSagna Diop",
         :number => 2,
         :shoe => 14,
         :points => 24,
@@ -134,11 +75,11 @@ describe 'hashketball' do
         :steals => 4,
         :blocks => 5,
         :slam_dunks => 5
-      }
+       }
     }
-
     let(:ben_stats) {
-      { 
+       {
+        :name => "Ben Gordon",
         :number => 8,
         :shoe => 15,
         :points => 33,
@@ -149,22 +90,21 @@ describe 'hashketball' do
         :slam_dunks => 0
        }
     }
-
     let(:brendan_stats) {
-      { 
-        :number => 33,
-        :shoe => 15,
-        :points => 6,
-        :rebounds => 12,
-        :assists => 12,
-        :steals => 22,
-        :blocks => 5,
-        :slam_dunks => 12
-      }
-    }
-
+     {:name => "Brendan Haywood",
+      :number => 33,
+      :shoe => 15,
+      :points => 6,
+      :rebounds => 12,
+      :assists => 12,
+      :steals => 22,
+      :blocks => 5,
+      :slam_dunks => 12
+     }
+    }         
     let(:alan_stats) {
-      { 
+      {
+        :name => "Alan Anderson",
         :number => 0,
         :shoe => 16,
         :points => 22,
@@ -173,24 +113,24 @@ describe 'hashketball' do
         :steals => 3,
         :blocks => 1,
         :slam_dunks => 1
-      }
+       }
     }
-
     let(:reggie_stats) {
-      { 
-        :number => 30,
-        :shoe => 14,
-        :points => 12,
-        :rebounds => 12,
-        :assists => 12,
-        :steals => 12,
-        :blocks => 12,
-        :slam_dunks => 7
-      }
+     {
+      :name => "Reggie Evans",
+      :number => 30,
+      :shoe => 14,
+      :points => 12,
+      :rebounds => 12,
+      :assists => 12,
+      :steals => 12,
+      :blocks => 12,
+      :slam_dunks => 7
+     }
     }
-
     let(:brook_stats) {
-      { 
+      {
+        :name => "Brook Lopez",
         :number => 11,
         :shoe => 17,
         :points => 17,
@@ -199,24 +139,24 @@ describe 'hashketball' do
         :steals => 3,
         :blocks => 1,
         :slam_dunks => 15
-      }
+       }
     }
-
     let(:mason_stats) {
-      { 
-        :number => 1,
-        :shoe => 19,
-        :points => 26,
-        :rebounds => 12,
-        :assists => 6,
-        :steals => 3,
-        :blocks => 8,
-        :slam_dunks => 5
-      }
+     {
+      :name => "Mason Plumlee",
+      :number => 1,
+      :shoe => 19,
+      :points => 26,
+      :rebounds => 12,
+      :assists => 6,
+      :steals => 3,
+      :blocks => 8,
+      :slam_dunks => 5
+     }
     }
-
     let(:jason_stats) {
-      { 
+      {
+        :name => "Jason Terry",
         :number => 31,
         :shoe => 15,
         :points => 19,
@@ -227,28 +167,55 @@ describe 'hashketball' do
         :slam_dunks => 1
       }
     }
-
+    
     it 'returns all stats for a given player' do
-      expect(player_stats("Jeff Adrien")).to eq(jeff_stats)
-      expect(player_stats("Bismak Biyombo")).to eq(bismak_stats)
-      expect(player_stats("DeSagna Diop")).to eq(desagna_stats)
-      expect(player_stats("Ben Gordon")).to eq(ben_stats)
-      expect(player_stats("Brendan Haywood")).to eq(brendan_stats)
-      expect(player_stats("Alan Anderson")).to eq(alan_stats)
-      expect(player_stats("Reggie Evans")).to eq(reggie_stats)
-      expect(player_stats("Brook Lopez")).to eq(brook_stats)
-      expect(player_stats("Mason Plumlee")).to eq(mason_stats)
-      expect(player_stats("Jason Terry")).to eq(jason_stats)
+      expect(player_stats("Charlotte Hornets", "Jeff Adrien")).to eq(jeff_stats)
+      expect(player_stats("Charlotte Hornets", "Bismak Biyombo")).to eq(bismak_stats)
+      expect(player_stats("Charlotte Hornets", "DeSagna Diop")).to eq(desagna_stats)
+      expect(player_stats("Charlotte Hornets", "Ben Gordon")).to eq(ben_stats)
+      expect(player_stats("Charlotte Hornets", "Brendan Haywood")).to eq(brendan_stats)
+      expect(player_stats("Brooklyn Nets", "Alan Anderson")).to eq(alan_stats)
+      expect(player_stats("Brooklyn Nets", "Reggie Evans")).to eq(reggie_stats)
+      expect(player_stats("Brooklyn Nets", "Brook Lopez")).to eq(brook_stats)
+      expect(player_stats("Brooklyn Nets", "Mason Plumlee")).to eq(mason_stats)
+      expect(player_stats("Brooklyn Nets", "Jason Terry")).to eq(jason_stats)
     end
+  end
 
+  describe '#shoe_size' do
+    it 'knows the shoe size of each player' do
+      expect(shoe_size("Charlotte Hornets", "Jeff Adrien")).to eq(18)
+      expect(shoe_size("Charlotte Hornets", "Bismak Biyombo")).to eq(16)
+      expect(shoe_size("Charlotte Hornets", "DeSagna Diop")).to eq(14)
+      expect(shoe_size("Charlotte Hornets", "Ben Gordon")).to eq(15)
+      expect(shoe_size("Charlotte Hornets", "Brendan Haywood")).to eq(15)
+      expect(shoe_size("Brooklyn Nets", "Alan Anderson")).to eq(16)
+      expect(shoe_size("Brooklyn Nets", "Reggie Evans")).to eq(14)
+      expect(shoe_size("Brooklyn Nets", "Brook Lopez")).to eq(17)
+      expect(shoe_size("Brooklyn Nets", "Mason Plumlee")).to eq(19)
+      expect(shoe_size("Brooklyn Nets", "Jason Terry")).to eq(15)
+    end
   end
 
   describe '#big_shoe_rebounds' do
-
     it 'returns 12 rebouds' do
       expect(big_shoe_rebounds).to eq(12)
     end
+  end
 
+  describe '#slam_dunks' do
+    it 'knows the number of slam dunks for each player' do
+      expect(slam_dunks("Jeff Adrien")).to eq(2)
+      expect(slam_dunks("Bismak Biyombo")).to eq(10)
+      expect(slam_dunks("DeSagna Diop")).to eq(5)
+      expect(slam_dunks("Ben Gordon")).to eq(0)
+      expect(slam_dunks("Brendan Haywood")).to eq(12)
+      expect(slam_dunks("Alan Anderson")).to eq(1)
+      expect(slam_dunks("Reggie Evans")).to eq(7)
+      expect(slam_dunks("Brook Lopez")).to eq(15)
+      expect(slam_dunks("Mason Plumlee")).to eq(5)
+      expect(slam_dunks("Jason Terry")).to eq(1)
+    end
   end
 
 end
